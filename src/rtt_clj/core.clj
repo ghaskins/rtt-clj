@@ -34,6 +34,7 @@
     (cond
       (:help options) (exit 0 summary))
     (let [nr (:iterations options)
-          tests [["pr-str" #(pr-str [1 :a 2 :b 3 :c])]]]
+          tests [["null" #()]
+                 ["pr-str" #(pr-str [1 :a 2 :b 3 :c])]]]
       (println "Running" nr "iterations across" (count tests) "test(s)")
-      (map (fn [[name func]] (println name ":" (timeMany nr func))) tests))))
+      (dorun (map (fn [[name func]] (println name ":" (timeMany nr func))) tests)))))
