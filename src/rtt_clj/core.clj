@@ -1,5 +1,6 @@
 (ns rtt-clj.core
-  (:require [clojure.tools.cli :refer [parse-opts]])
+  (:require [clojure.tools.cli :refer [parse-opts]]
+            [rtt-clj.async :refer :all :as async])
   (:gen-class))
 
 (def cli-options
@@ -31,6 +32,7 @@
       (:help options) (exit 0 summary))
     (let [nr (:iterations options)
           tests [["null" #()]
-                 ["pr-str" #(pr-str [1 :a 2 :b 3 :c])]]]
+                 ["pr-str" #(pr-str [1 :a 2 :b 3 :c])]
+                 ["go routine" #(async/golifecycle)]]]
       (println "Running" nr "iterations across" (count tests) "test(s)")
       (dorun (map (fn [[name func]] (println name ":" (timeMany nr func))) tests)))))
