@@ -17,11 +17,7 @@
     (vector result (- stop start))))
 
 (defn timeMany [nr f & args]
-  (let [[_, result] (timeOnce #(loop [i 1]
-                                 (apply f args)
-                                 (if (> i nr)
-                                   nil
-                                   (recur (inc i)))))]
+  (let [[_, result] (timeOnce #(dotimes [i nr] (apply f args)))]
     (double (/ result nr))))
 
 (defn exit [status msg]
